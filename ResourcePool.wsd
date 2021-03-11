@@ -9,7 +9,7 @@ title Resource Pool Management - RPM C4 Level 1
 
 LAYOUT_TOP_DOWN
 'LAYOUT_AS_SKETCH()
-LAYOUT_WITH_LEGEND()
+'LAYOUT_WITH_LEGEND()
 
 skinparam wrapWidth 200
 skinparam maxMessageSize 200
@@ -22,7 +22,7 @@ Person(masterDataManager, "Master Data Manager", "SAP Account")
 
 System_Boundary(fusion, "Fusion Ecosystem"){
     
-    System(rpm, "RPM", "Fusion App")
+    System(rpm, "RPM", "Competence Center App")
     ContainerDb(rpmDb, "Rpm Database", "Azure")
 
     System_Boundary(fusionCoreService, "Fusion Core Service"){
@@ -49,6 +49,7 @@ System_Boundary(snow, "Service Now"){
     
 }
 
+
 'snow
 Rel(snowApi, snowServiceCatelogue, "")
 Rel(snowApi, snowSkill, "")
@@ -72,6 +73,7 @@ Rel(resourceOwner, rpm, "")
 Rel(masterDataManager, snowKitchen, "")
 Rel(snowKitchen, snowSkill, "")
 Rel(snowKitchen, snowServiceCatelogue, "")
+
 
 
 @enduml
