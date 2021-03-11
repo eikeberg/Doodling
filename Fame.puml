@@ -1,0 +1,40 @@
+@startuml DocumentViever
+
+title Facility Asset Model/Enterprise - FAME C4 Level 1
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+LAYOUT_TOP_DOWN
+LAYOUT_AS_SKETCH()
+LAYOUT_WITH_LEGEND()
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 200
+
+
+Person(mainuser, "User/Application", "Uses an applicaiton that have data relevant to FAME")
+
+System_Boundary(external, "External for FAME"){
+    System_Ext(contractor, "Contractor Systems")
+    System_Ext(equinor, "Equinror Systems")
+}
+
+System_Boundary(fame, "FAME"){   
+    System(engBase, "Engineering Base", "Application")            
+    System(engApi, "API" , "")
+    System(def, "Definitions", "json, xds, schema, DTD,AutomationML")
+}
+
+
+Rel(mainuser, contractor, "uses")
+Rel(mainuser, equinor, "uses")
+
+Rel(engApi, contractor, "https")
+Rel(engApi, equinor, "https")
+   
+
+
+@enduml

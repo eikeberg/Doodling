@@ -1,0 +1,35 @@
+@startuml DocumentViever
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+Person(mainuser, "User", "[Equinor Account]")
+
+System_Boundary(fieldAp, "FieldAP"){
+   
+   System(tab, "iFrame from DCD")
+   ContainerDb(fieldApDB, "Database", "Database")      
+    
+}
+
+System_Boundary(dcd, "DCD"){
+    
+    System(api, "API")    
+
+   
+}
+
+System_Boundary(omnia, "Omnia"){
+   
+    ContainerDb(omniaDB, "Database", "Database")      
+}
+
+Rel(mainuser, tab, "uses")
+Rel(api, omniaDB, "uses")
+Rel(api,fieldApDB, "uses" )
+Rel(tab, api, "uses")
+Rel(tab, fieldApDB, "uses")
+
+@enduml

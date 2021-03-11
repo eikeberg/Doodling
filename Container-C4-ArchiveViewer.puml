@@ -1,0 +1,47 @@
+@startuml DocumentViever
+
+!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+'!include template\C4_Container.puml
+'!include template\C4_Context.puml
+'!include template\C4_Component.puml
+
+'LAYOUT_TOP_DOWN
+LAYOUT_LEFT_RIGHT
+
+Person(mainuser, "User", "[Equinor Account]")
+
+
+System_Boundary(archiveViewer, "Archive Viewer WebApp"){
+   
+    System(spa, "SPA", "Fusion app")
+    System(search, "Search", "search everything")
+    System(list, "List","List pr. Contract ")
+    System_Ext(fusionOrg, "Fusion OrgChart")          
+}
+System_Boundary(azure, "Azure"){
+    
+    System(dbapi, "API")    
+    ContainerDb(db, "Database", "Document Archive")
+    
+}
+
+System_Boundary(accessIT, "AccessIT"){
+    
+    System_Ext(roles, "Roles")    
+    
+}
+
+
+Rel(spa, roles, "uses")
+Rel(mainuser, spa, "https")
+Rel(search, dbapi,"https")
+Rel(list, dbapi,"https")
+Rel(dbapi, db, uses)
+
+Rel(spa, search, "https")
+Rel(spa, list, "https")
+
+Rel(fusionOrg, spa, "uses")
+
+
+@enduml

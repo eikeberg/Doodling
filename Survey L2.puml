@@ -1,0 +1,43 @@
+@startuml Basic Sample
+
+title Survey App
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+Person(mainuser, "User")
+
+
+System_Boundary(system, "App"){
+
+    System(app, "The App", "")
+    System(metadataApi, "API", "HTTPS")
+    ContainerDb(metadatadb, "Metadata Database", "Azure Storage")
+
+}
+
+System_Boundary( data, "Data"){
+
+    ContainerDb(surveydata, "Survey Data", "Azure Storage/FileStorage")
+    System(surveyApi, "API", "HTTPS")
+
+}
+
+System_Boundary( solutionx, "Solution X"){
+
+    System(newApp, "App X", "WebbApp")
+
+}
+
+Rel(app, metadataApi,  "uses")
+Rel(metadataApi, metadatadb , "uses")
+
+Rel(surveyApi,surveydata, "HTTPS")
+Rel(mainuser, app, "Interact")
+
+Rel(app, surveyApi, "link")
+Rel(newApp, surveyApi, "uses")
+
+@enduml
+

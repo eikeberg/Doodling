@@ -1,0 +1,63 @@
+@startuml DocumentViever
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+
+System_Boundary(engineeringbase, "EngineeringBase"){
+     
+   ContainerDb(engBase, "EngineeringBaseDb", "Database")
+   System(ebApi, "API", "AutomationML, json, standard")            
+    
+}
+
+System_Boundary(pcs, "ProCoSys"){
+     
+   ContainerDb(pcsDb, "Database", "Database")
+   System(pcsApi, "API", "API")        
+}
+
+System_Boundary(stid, "STID"){
+   System(stidApi, "API", "API")         
+}
+
+System_Boundary(Omnia, "Omnia"){
+     
+   'System(apim, "APIM", "API")
+   System(fame, "FAME", "FAME") 
+       
+}
+
+'System_Boundary(fam, "Facility AssetModel"){
+     
+ '  System(famApi, "API", "") 
+       
+'}
+
+
+System_Boundary(external, "External"){
+     
+   System(aker, "Aker", "API") 
+   System(aibel, "Aibel", "API")    
+   System(fmc, "FMC", "API") 
+
+    
+}
+
+Rel(pcsDb, pcsApi, "[https]")
+
+Rel(ebApi, engBase, "[https]")
+
+'Rel(famApi, ebApi, "[https]")
+Rel(fame, ebApi, "[https]")
+
+Rel(aker, fame, "[https]")
+Rel(aibel, fame, "[https]")
+Rel(fmc, fame, "[https]")
+Rel(pcsApi, fame, "[hhtps]")
+Rel(stidApi, fame, "[https]")
+
+
+@enduml

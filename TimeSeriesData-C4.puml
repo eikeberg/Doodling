@@ -1,0 +1,53 @@
+@startuml Basic Sample
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+'LAYOUT_TOP_DOWN()
+LAYOUT_WITH_LEGEND()
+'LAYOUT_AS_SKETCH()
+
+Container(maindata, "Data", " Eks: measure:[ Time:2020-29-04T13:23:23.000Z, value: { Humidity:90, Temperature:23.5,  Status:Good }  ]", "Dataobject from Sensor")
+
+System_Boundary(gateway, "Gateway to Omnia"){
+    
+    System(iot, "IOT Hub")
+    System(servicebus, "ServiceBus")
+    
+}
+
+
+System_Boundary(omnia, "Omnia"){
+    System(omniaRaw, "Data Lake", "Raw Data")
+    System(omniaAgg, "SQL", "Aggregated Data")
+    System(omniaBricks, "Data Bricks", "Official Data Set for Analyses")
+}
+
+System_Boundary(api, "Enterprise Api"){
+    System(timeseriesApi, "Time Seriers API", "Raw Data")
+    
+}
+
+System_Boundary(cm, "Corrosion Mangement (OPT)"){
+    System(app, "WebApp")
+    
+}
+
+Rel(omniaRaw, omniaBricks,"[HTTPS]")
+Rel(omniaRaw, omniaAgg,"[HTTPS]")
+
+Rel(maindata, iot, "[HTTPS]")
+Rel(maindata, servicebus, "[HTTPS]")
+
+Rel(iot, omniaRaw, "[HTTPS]")
+Rel(servicebus, omniaRaw, "[HTTPS]")
+
+Rel(omniaAgg, timeseriesApi, "[HTTPS]")
+
+Rel(app, timeseriesApi, "[HTTPS]")
+
+
+@enduml
+

@@ -1,0 +1,62 @@
+@startuml
+' uncomment the line below if you're using computer with a retina display
+' skinparam dpi 300
+!define Table(name,desc) class name as "desc" << (T,#FFAAAA) >>
+' we use bold for primary key
+' green color for unique
+' and underscore for not_null
+!define primary_key(x) <b>x</b>
+!define unique(x) <color:green>x</color>
+!define not_null(x) <u>x</u>
+' other tags available:
+' <i></i>
+' <back:COLOR></color>, where color is a color name or html color code
+' (#FFAACC)
+' see: http://plantuml.com/classes.html#More
+hide methods
+hide stereotypes
+
+Table(beer, "Beer in our system") {
+primary_key(Beer_id) 
+primary_key(Name)
+primary_key(Brewery)
+not_null(Type)
+not_null(ABV)
+}
+
+Table(user, "Beer Taster") {
+primary_key(User_id) 
+not_null(Name)
+unique(nick_name)
+}
+
+Table(taste_notes, "Taste Notes") {
+primary_key(Taste_id) 
+primary_key(User_id)
+primary_key(Beer_id)
+not_null(Colour) 
+not_null(Smell)
+not_null(Look)
+not_null(Taste)
+not_null(Mouthfeel)
+not_null(Aftertaste)
+unique(Description)
+
+}
+
+
+
+
+
+
+' relationships
+' one-to-one relationship
+beer --> taste_notes : "A user only \nhas one profile"
+' one to may relationship
+user --> taste_notes : "A user may have\n many sessions"
+' many to many relationship
+' Add mark if you like
+'user "1" --> "*" user_group : "A user may be \nin many groups"
+'group "1" --> "0..N" user_group : "A group may \ncontain many users"
+@enduml
+

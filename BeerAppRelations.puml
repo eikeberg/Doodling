@@ -1,0 +1,12 @@
+@startuml Basic Sample
+!define Table (name, desc) class name as "descriptiuon" << (T, #FFAAAA) >>
+
+
+Table(user, "user\n(User in our system)") {
+primary_key(id) INTEGER
+not_null(unique(username)) VARCHAR[32]
+not_null(password) VARCHAR[64]
+}
+
+@enduml
+

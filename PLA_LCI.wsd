@@ -1,0 +1,77 @@
+@startuml DocumentViever
+title GBS IT PLA LCI Main Applications
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/master/C4_Container.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+LAYOUT_TOP_DOWN
+'LAYOUT_LEFT_RIGHT
+'LAYOUT_WITH_LEGEND()
+'LAYOUT_AS_SKETCH()
+
+'Person(mainuser, "User", "[Equinor Account]")
+
+System_Boundary(presentation, "Presentation"){
+   
+    System(fusion, "Fusion") 
+    System(echo, "Echo")          
+}
+System_Boundary(integration, "Integration"){
+    
+    System(tie, "TIE")    
+}
+
+System_Boundary(sourceSystems, "Source Systems"){
+    
+    System(procosys, "ProCoSys")    
+    System(pims, "Pims")    
+    System(stid, "STID")    
+    System(semi, "SEMI")    
+}
+
+System_Boundary(external, "External Companies"){
+
+    System_Ext(aker, "Aker")
+    System_Ext(aibel, "Aibel")
+}
+
+
+Rel(tie, procosys, "https")
+Rel(tie, semi, "https")
+Rel(tie, stid, "https")
+Rel(tie, pims, "https")
+
+Rel(procosys, tie, "https")
+Rel(semi, tie, "https")
+Rel(stid, tie, "https")
+Rel(pims, tie, "https")
+
+
+Rel(pims, fusion, "https")
+Rel(pims, echo, "https")
+
+Rel(stid, fusion, "https")
+Rel(stid, echo, "https")
+
+Rel(semi, fusion, "https")
+Rel(semi, echo, "https")
+
+
+Rel(procosys, fusion,  "https")
+Rel(procosys,echo,  "https")
+
+Rel(aker, tie,  "https")
+Rel(aibel, tie ,  "https")
+
+Rel(tie, aker,  "https")
+Rel(tie , aibel, "https")
+
+
+'Rel(mainuser, fusion, "https")
+'Rel(mainuser, procosys, "https")
+'Rel(mainuser, echo, "https")
+
+
+@enduml
