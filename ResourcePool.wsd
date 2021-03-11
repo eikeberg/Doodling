@@ -1,0 +1,77 @@
+@startuml DocumentViever
+
+title Resource Pool Management - RPM C4 Level 1
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+LAYOUT_TOP_DOWN
+'LAYOUT_AS_SKETCH()
+LAYOUT_WITH_LEGEND()
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 200
+
+
+Person(mainuser, "User", "Azure AD Account")
+Person(taskOwner, "Task Owner", "Azure AD Account")
+Person(resourceOwner, "Resource Owner", "Azure AD Account")
+Person(masterDataManager, "Master Data Manager", "SAP Account")
+
+System_Boundary(fusion, "Fusion Ecosystem"){
+    
+    System(rpm, "RPM", "Fusion App")
+    ContainerDb(rpmDb, "Rpm Database", "Azure")
+
+    System_Boundary(fusionCoreService, "Fusion Core Service"){
+        System(orgChart, "Fusion Org Chart")
+        System(meeting, "Fusion Meeting")
+        System(appn, "Fusion App n")
+    }
+}
+
+System_Boundary(other, "Other Systems"){   
+    
+    System(commonLib, "CommonLibrary", "API")            
+    System(sap, "SAP" , "System")
+    System(pims, "Pims", "System")
+    System(azureAD, "Azure AD", "User Authentication")
+}
+
+System_Boundary(snow, "Service Now"){
+    
+    System(snowKitchen, "Kitchen View", "Application") 
+    System(snowApi, "API")            
+    System(snowSkill, "Skill" , "Masterdata")
+    System(snowServiceCatelogue, "Service Catalogue", "Masterdata")
+    
+}
+
+'snow
+Rel(snowApi, snowServiceCatelogue, "")
+Rel(snowApi, snowSkill, "")
+
+'External
+Rel(rpm,commonLib,"")
+Rel(rpm, sap, "")
+Rel(rpm, pims, "")
+
+'Fusion Internal
+Rel(rpm, rpmDb, "")
+Rel(rpm, orgChart, "")
+Rel(rpm, meeting, "")
+Rel(rpm, appn, "")
+Rel(rpm, snowApi, "")
+
+'users
+Rel(mainuser, rpm, "")
+Rel(taskOwner, rpm, "")
+Rel(resourceOwner, rpm, "")
+Rel(masterDataManager, snowKitchen, "")
+Rel(snowKitchen, snowSkill, "")
+Rel(snowKitchen, snowServiceCatelogue, "")
+
+
+@enduml
