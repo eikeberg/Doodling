@@ -1,0 +1,49 @@
+@startuml DocumentViever
+
+title PipeSim SSO C4 Level 1
+
+'!includeurl https://raw.githubusercontent.com/RicardoNiepel/C4-PlantUML/release/1-0/C4_Context.puml
+!include template\C4_Container.puml
+!include template\C4_Context.puml
+!include template\C4_Component.puml
+
+LAYOUT_TOP_DOWN
+'LAYOUT_LEFT_RIGHT
+'LAYOUT_AS_SKETCH()
+'LAYOUT_WITH_LEGEND()
+
+skinparam wrapWidth 200
+skinparam maxMessageSize 200
+
+
+Person(mainuser, "User", "Azure AD Account")
+
+
+System_Boundary(fusion, "Fusion"){
+    
+    System(fusionApp, "SPA", "[Application]")
+    
+    
+}
+
+System(azureAD, "Equinor Azure Ad", "[Application]")            
+
+System_Boundary(equinor, "Equnor Solutions"){   
+    
+    
+    System(stid, "Stid", "[Application]")
+    System(procosys, "proCoSys", "[Application]")
+    System(semi, "Semi", "[Application]")
+    System(sap, "SAP", "[Application]")
+
+}
+
+Rel(stid, fusion, "Data")
+Rel(procosys, fusion, "Data")
+Rel(semi, fusion, "Data")
+Rel(sap, fusion, "Data")
+
+Rel(fusion, azureAD, "")
+
+Rel(mainuser, fusion, "")
+@enduml
